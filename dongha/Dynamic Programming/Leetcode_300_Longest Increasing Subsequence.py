@@ -1,15 +1,20 @@
-# https://leetcode.com/problems/climbing-stairs/submissions/
-# 70. Climbing Stairs (Easy)
+# https://leetcode.com/problems/longest-increasing-subsequence/submissions/
+# 300. Longest Increasing Subsequence (Medium)
 
 class Solution:
-    def climbStairs(self, n: int) -> int:
-        fibo = [0 for i in range(46)]
-        fibo[0] = 1
-        fibo[1] = 2
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        
+        candidate = [1]
+        for i in range(1, len(nums)):
+            j = i - 1
+            tmp = [1]
+            while j >= 0:
+                if nums[j] < nums[i]:
+                    tmp.append(candidate[j] + 1)
+                j -= 1
+            check = 0
+            candidate.append(max(tmp))
 
-        for i in range(n - 1):
-            fibo[i + 2] = fibo[i] + fibo[i + 1]
-            
-        # 케이스를 쭉 써내려다 보니 피보나치여서 이렇게 했다. 왜 피보나치가 나올 까 생각해보니 경우의 수가 두 단계 전의 경우의 수에서 두칸을 올라오는 경우 + 한 단계 전의 경우의 수에서 한칸을 올라오는 경우이기 때문
-
-        return fibo[n - 1]
+        return max(candidate)
+    
+    ## candidate[i]는 nums[i]가 마지막인 subsequence의 최대 길이를 뜻한다. 자신 앞의 nums 요소들을 다 살피며 자신이 그 요소보다 크다면 이러면 n^2이라 구글링 해봤는데 lower bound 써야한다 하더라..
